@@ -1,0 +1,12 @@
+FROM ubuntu:latest
+
+ENV TZ=Asia/Hong_Kong 
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN apt-get -y update && apt-get install -y cmake ant gradle clang nodejs npm libboost-all-dev libeigen3-dev libjpeg-dev 
+
+COPY . /usr/src/app
+
+WORKDIR /usr/src/app/cmake_output
+
+RUN mv ../Makefile . && make build
